@@ -1,52 +1,69 @@
 package com.example.musicarchivebackend.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "playlists")
+@Document(collection = "playlist")
 public class Playlist {
+
     @Id
     private String id;
-    @Setter
-    private String userId; // Assuming each playlist is associated with a user ID
-    @Getter
-    private List<Song> songs; // List of Song objects
+    
+    @Field(value = "playlist_name")
+    private String name;
 
-//    public Playlist(String userId) {
-//        this.userId = userId;
-//        this.songs = new ArrayList<>();
-//    }
+    @Field(value = "songs")
+    private List<String> songList;
 
-    public String getUserId() {
-        return userId;
+    // Constructors, getters, setters
+
+    public Playlist() {
+        //this constructor will be used to create a new playlist
+        this.songList = new ArrayList<>();
     }
 
+    public Playlist(String name) 
+    {
+        // this will create a playlist with a name
+        //again an empty playlist
+        this.name = name;
+        this.songList = new ArrayList<>();
+        //this.songList.add("Test song compulory in all playlists");
+        //to be removed debug
+    }
 
-    // Method to add a song to the playlist
-//    public void addSong(Song song) {
-//        songs.add(song);
-//    }
-//
-//    // Method to remove a song from the playlist
-//    public void removeSong(Song song) {
-//        songs.remove(song);
-//    }
-//
-//    // Method to get the list of songs in the playlist
-//    public List<Song> getSongs() {
-//        return songs;
-//    }
-//
-//    // Method to get the user ID associated with the playlist
-//    public String getUserId() {
-//        return userId;
-//    }
+    // Add other fields as needed
 
-    // Method to set the user ID associated with the playlist
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<String> getSongList() {
+        return songList;
+    }
+
+    public void setSongList(List<String> songList) {
+        this.songList = songList;
+    }
+
+    public void addSongToList(List<String> songList, String songName)
+    {
+        this.songList.add(songName);
+    }
 }

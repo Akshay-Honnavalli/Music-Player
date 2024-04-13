@@ -20,7 +20,7 @@ public class StorageService {
 
     public StorageService() {
         AWSCredentialsProvider awsCredentialsProvider = new AWSStaticCredentialsProvider(
-                new BasicAWSCredentials("DO00RTFR3VRU8KVCNQ8X", "80feynwraAjlufLIbItyIek7ZzVetoKIuixVbxq9Tms")
+            new BasicAWSCredentials("DO003667YH66DRRMEN4F", "nTH8/a+DUOyy4poVZ85OLOP0mVgoYk5KBZ3KWf9jWRo")
 
         );
 

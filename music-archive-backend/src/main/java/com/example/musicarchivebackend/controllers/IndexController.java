@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -40,13 +41,13 @@ public class IndexController {
     }
 
 
-    @GetMapping("/index")
-    public String getindex(Model model) {
-        // Perform login logic here (e.g., check credentials)
-        // If login is successful, redirect to index.html
-        model.addAttribute("songFileNames", storageService.getSongFileNames());
-        return "index";
-    }
+//    @GetMapping("/index")
+//    public String getindex(Model model) {
+//        // Perform login logic here (e.g., check credentials)
+//        // If login is successful, redirect to index.html
+//        model.addAttribute("songFileNames", storageService.getSongFileNames());
+//        return "index";
+//    }
 
     @PostMapping("/index")
     public String handleLogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model) {
@@ -69,7 +70,10 @@ public class IndexController {
                 passwd = doc.getString("password");
                 System.out.println("passwd: " + passwd);
                 if(passwd.equals(password)){
-                    return "redirect:/index";
+//                    return "redirect:/index";
+//                    session.setAttribute("loggedInUser", email);
+                    model.addAttribute("songFileNames", storageService.getSongFileNames());
+                    return "index";
                 }
                 else{
                     return "redirect:/";
@@ -84,7 +88,7 @@ public class IndexController {
 
 
     @PostMapping("/signup")
-    public String handleSignup(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("confirm") String confirm,Model model) {
+    public String handleSignup(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("confirm") String confirm,@RequestParam("role") String role,Model model) {
         // Perform login logic here (e.g., check credentials)
         // If login is successful, redirect to index.html
         System.out.println("IN post mapping /signup");
@@ -100,14 +104,23 @@ public class IndexController {
 
                 // Create a document to insert
                 Document document = new Document("email", email)
-                        .append("password", password);
+                        .append("password", password)
+                        .append("role",role);
 
                 System.out.println(document);
                 // Insert the document into the 'Login' collection
                 collection.insertOne(document);
 
                 System.out.println("Document inserted successfully");
-                return "redirect:/index";
+//                return "redirect:/index";
+                model.addAttribute("songFileNames", storageService.getSongFileNames());
+                if(role.equals("artist")) {
+//                    return "index";
+                    return "redirect:/index";
+                }
+                else{
+                    return "index2";
+                }
             } catch (Exception e) {
                 System.err.println("Unable to insert due to an error: " + e);
             }
@@ -115,17 +128,13 @@ public class IndexController {
         else {
             return "redirect:/";
         }
-            return "redirect:/index";
+//            return "redirect:/index";
+            model.addAttribute("songFileNames", storageService.getSongFileNames());
+            return "index";
         }
 
 
-    @GetMapping("/upload")
-    public String upload( Model model) {
-        // Perform login logic here (e.g., check credentials)
-        // If login is successful, redirect to index.html
-//        model.addAttribute("songFileNames", storageService.getSongFileNames());
-        return "index2";
-    }
+
 
 
 
@@ -151,12 +160,15 @@ public class IndexController {
 //    }
 
     @PostMapping("/main")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,Model model) throws IOException {
         System.out.println("In handle file upload func");
         storageService.uploadSong(file);
 //        SongRepository.insert(song);
 
-        return "redirect:/index";
+//        return "redirect:/index";
+
+        model.addAttribute("songFileNames", storageService.getSongFileNames());
+        return "index";
     }
 }
 

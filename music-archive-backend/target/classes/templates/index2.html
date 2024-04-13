@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Music Archive</title>
-
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href= "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-800">
 
@@ -13,72 +11,62 @@
     <div class="text-center m-20 py-3 px-2">
         <h1 class="text-6xl font-extrabold text-white pb-4">Music Archive</h1>
         <img class="rounded-2xl mx-auto" src="https://media.tenor.co/images/bf102e55a9e1450c15f8221c18a11ffc/tenor.gif" />
+
+        <!-- Search form -->
         <div>
+            <form method="GET" action="/search">
+                <label class="mx-2 text-white">Search Song:</label>
+                <input name="query" class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 rounded-xl" type="text" placeholder="Enter song name to search" />
+                <button class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 my-2 text-2xl rounded-xl hover:bg-white hover:text-black" type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- Playlists button -->
+        <div>
+            <a href="/index/playlists" class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 my-2 text-2xl rounded-xl hover:bg-white hover:text-black">Playlists</a>
         </div>
     </div>
 </div>
 
-<input type="checkbox" id="check">
-<div class="upload form">
-    <header>Upload Song</header>
-<!--    <form class="upload-form" th:action="@{/index2}" method="post" role="form">-->
-    <form method="POST" enctype="multipart/form-data" >
-        <input type="text" placeholder="Enter song name" name="song" required>
-        <input type="password" placeholder="Enter artist" name="artist" required>
-        <label class="mx-2 text-white">File to Upload:</label>
-        <input name="file" class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 rounded-xl" type="file" />
-<!--        <button class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 my-2 text-2xl rounded-xl hover:bg-white hover:text-black" type="submit" onclick="redirectToIndex2()">Upload File</button>-->
-        <input type="submit" class="button" value="upload">
-    </form>
-
-<!--    <div>-->
-<!--        <form method="POST" enctype="multipart/form-data" action="/">-->
-<!--            <label class="mx-2 text-white">File to Upload:</label>-->
-<!--            <input name="file" class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 rounded-xl" type="file" />-->
-<!--            <button class="bg-black ring-1 ring-gray-800 text-white font-medium p-1 my-2 text-2xl rounded-xl hover:bg-white hover:text-black" type="submit" onclick="redirectToIndex2()">Upload File</button>-->
-<!--            <script>-->
-<!--                function redirectToIndex2() {-->
-<!--                    window.location.href = "index2.html";-->
-<!--                }-->
-<!--            </script>-->
-<!--        </form>-->
-<!--    </div>-->
+<div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Song Name
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Audio
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tr th:each="fileName : ${songFileNames}">
+                        <td th:text="${fileName}" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <audio controls>
+                                <source th:src="${'https://musicarchivespotify.blr1.digitaloceanspaces.com/' + fileName}" type="audio/mpeg">
+                                Your browser does not support audio element
+                            </audio>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <!-- Add to Favourites button -->
+                            <button class="bg-gray-500 text-white font-medium px-2 py-1 rounded-md mr-2 hover:bg-gray-700">❤️ Add to Favourites</button>
+                        </td>
+                    </tr>
+                    <!-- More songs... -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-<!--<div class="flex flex-col">-->
-<!--    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">-->
-<!--        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">-->
-<!--            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">-->
-<!--                <table class="min-w-full divide-y divide-gray-200">-->
-<!--                    <thead class="bg-gray-50">-->
-<!--                    <tr>-->
-<!--                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--                            Song Name-->
-<!--                        </th>-->
-<!--                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-<!--                            Audio-->
-<!--                        </th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody class="bg-white divide-y divide-gray-200">-->
-<!--&lt;!&ndash;                    <tr th:each="fileName : ${songFileNames}">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <td th:text="${fileName}" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">&ndash;&gt;-->
-<!--&lt;!&ndash;                            Jane Cooper&ndash;&gt;-->
-<!--&lt;!&ndash;                        </td>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <audio controls>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <source src="https://musicarchivespotify.blr1.digitaloceanspaces.com/file_example_MP3_700KB.mp3" type="audio/mpeg">&ndash;&gt;-->
-<!--&lt;!&ndash;                                Your browser does not support audio element&ndash;&gt;-->
-<!--&lt;!&ndash;                            </audio>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </td>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </tr>&ndash;&gt;-->
-<!--                    &lt;!&ndash; More people... &ndash;&gt;-->
-<!--                    </tbody>-->
-<!--                </table>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 </body>
 </html>

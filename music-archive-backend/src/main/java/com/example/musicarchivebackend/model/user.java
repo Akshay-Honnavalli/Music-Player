@@ -28,22 +28,27 @@ public class user {
     @Autowired
     private StorageService storageService; // Assuming StorageService is a Spring Bean
 
-    public List<String> searchsong(String query) {
+    public List<String> searchsong(String query) 
+    {
         System.out.println("query = "+query);
         String title2 = "";
         String uri = "mongodb+srv://akshay2004prasad:oeqFwhbToWLiLYjN@cluster0.eqmb7nu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-        try (MongoClient mongoClient = MongoClients.create(uri)) {
+        try (MongoClient mongoClient = MongoClients.create(uri)) 
+        {
             System.out.println("in try in user");
             MongoDatabase database = mongoClient.getDatabase("musicarchive");
             MongoCollection<Document> collection = database.getCollection("Song");
 
             Document doc = collection.find(eq("title", query)).first();
-            if (doc != null) {
+            if (doc != null) 
+            {
                 System.out.println("matching documents found");
                 System.out.println(doc.toJson());
                 title2 = doc.getString("filename");
                 System.out.println("filename: " + title2);
-            } else {
+            } 
+            else 
+            {
                 System.out.println("No matching documents found.");
                 return Collections.emptyList();
             }

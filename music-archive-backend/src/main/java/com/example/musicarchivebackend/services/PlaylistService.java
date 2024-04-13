@@ -1,31 +1,44 @@
 package com.example.musicarchivebackend.services;
 
+import com.example.musicarchivebackend.controllers.PlaylistController;
 import com.example.musicarchivebackend.model.Playlist;
 import com.example.musicarchivebackend.model.Song;
 import com.example.musicarchivebackend.repository.PlaylistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PlaylistService {
+
     @Autowired
     private PlaylistRepository playlistRepository;
 
-    public Playlist createPlaylist(String userId) {
-        Playlist playlist = new Playlist();
-        playlist.setUserId(userId);
+    public List<Playlist> getAllPlaylists()
+    {
+        System.out.println(playlistRepository.findAll());
+        return playlistRepository.findAll();
+    }
+
+    public Playlist createPlaylist(String name, List<String> songs)
+    {
+        //this will create the playlist constructor
+        Playlist playlist = new Playlist(name);
+
+        //this will add the songs to the playlist
+        for(int i = 0;i<songs.size();i++)
+        {
+            playlist.addSongToList(playlist.getSongList(), songs.get(i));
+        }
         return playlistRepository.save(playlist);
     }
 
-    public Playlist addSongToPlaylist(String playlistId, Song song) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new RuntimeException("Playlist not found"));
-        playlist.getSongs().add(song);
-        return playlistRepository.save(playlist);
-    }
-
-    public List<Song> getSongsInPlaylist(String playlistId) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new RuntimeException("Playlist not found"));
-        return playlist.getSongs();
+    public int TestAddDummySong(Playlist playlist)
+    {
+        playlist.setName("Test-playlist");
+        playlist.setId("1");
+        playlist.addSongToList(playlist.getSongList(),"test-sharma-2.mp3"); 
+        // in the future this should come from the HTML form.
+        return 0;
     }
 }

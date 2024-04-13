@@ -9,26 +9,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
 import java.util.List;
-import java.util.stream.Collectors;
-//
+//import java.util.stream.Collectors;
+
 @Controller
 public class UserController {
-//    @Autowired
-//    private UserService userService;
     private final StorageService storageService;
     @Autowired
     private user User;
     @Autowired
-    public UserController(StorageService storageService) {
+    public UserController(StorageService storageService) 
+    {
         this.storageService = storageService;
     }
 
     @GetMapping("/search")
-    public String searchSong(@RequestParam("query") String query, Model model) {
+    public String searchSong(@RequestParam("query") String query, Model model) 
+    {
         List<String> matchedSongFileNames = User.searchsong(query);
-//        List<String> matchedSongFileNames = storageService.getSongFileNames().stream()
-//                .filter(title -> title.contains(query))
-//                .collect(Collectors.toList());
         System.out.println("matchedSongFileNames"+matchedSongFileNames);
         model.addAttribute("songFileNames", matchedSongFileNames);
         return "index"; // Assuming your view name is index
