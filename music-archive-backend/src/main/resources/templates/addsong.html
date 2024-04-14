@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Playlist</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-800">
+<div class="mx-auto w-6/12">
+    <div class="text-center m-20 py-3 px-2">
+        <h1 class="text-6xl font-extrabold text-white pb-4">Add song to playlist</h1>
+
+        <!-- Playlist form -->
+        <form th:action="@{/index/playlists/addsong}" method="post">
+            <div class="mb-4">
+                <label for="songNames" class="block text-white text-sm font-bold mb-2">Song Names (comma-separated):</label>
+                <textarea id="songNames" name="songNames" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+            </div>
+            <!-- Add a hidden input field for playlistId -->
+            <input type="hidden" name="playlistId" value="<Your Playlist ID Here>">
+            <div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Add song to playlist
+                </button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+</body>
+</html>
